@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-
+import Todo from "./Todo";
 import { addTodo, markComplete, clearCompleted } from "../actions/index";
 
 const TodoListContainer = styled.div`
@@ -28,19 +28,6 @@ const ButtonContainer = styled.div`
 
   width: 100%;
   height: 50px;
-`;
-
-const Todo = styled.div`
-  display: flex;
-  align-items: center;
-
-  width: 100%;
-  height: 50px;
-
-  padding-left: 10px;
-  cursor: pointer;
-
-  border-bottom: 1px solid black;
 `;
 
 class TodoList extends React.Component {
@@ -91,15 +78,12 @@ class TodoList extends React.Component {
           <button onClick={this.addTodoHandler}>+</button>
         </TodoForm>
         {this.props.todos.map((todo, i) => (
-          <Todo key={i} onClick={() => this.markCompleteHandler(i)}>
-            <span
-              style={{
-                textDecoration: `${todo.completed ? "line-through" : "none"}`
-              }}
-            >
-              {todo.task}
-            </span>
-          </Todo>
+          <Todo 
+            key={i}
+            taskID={i} 
+            task={todo.task}
+            completed={todo.completed}
+          />
         ))}
         <ButtonContainer>
           <button onClick={this.clearCompletedHandler}>Clear Complete</button>
