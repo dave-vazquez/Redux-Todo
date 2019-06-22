@@ -2,13 +2,18 @@
  *                                  REDUCERS                                      *
  **********************************************************************************/
 
-import { ADD_TODO, MARK_COMPLETE, CLEAR_COMPLETED } from "../actions";
+import {
+  ADD_TODO,
+  DELETE_TODO,
+  MARK_COMPLETE,
+  CLEAR_COMPLETED
+} from "../actions";
 
 /* remove this and see what happens */
 const initialState = {
   todos: [
     {
-      task: "Mark me complete!",
+      todo: "Mark me complete!",
       completed: false
     }
   ]
@@ -18,13 +23,18 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_TODO:
       return {
-        todos: [...state.todos, action.payload]
+        todos: [...state.todos, action.todo]
+      };
+
+    case DELETE_TODO:
+      return {
+        todos: state.todos.filter((todo, i) => i !== action.todoID)
       };
 
     case MARK_COMPLETE:
       return {
         todos: state.todos.map((todo, i) =>
-          i === action.payload ? { ...todo, completed: !todo.completed } : todo
+          i === action.todoID ? { ...todo, completed: !todo.completed } : todo
         )
       };
 
