@@ -1,103 +1,38 @@
 import React from "react";
-import { connect } from "react-redux";
-import styled from "styled-components";
 import Todo from "./Todo";
-import { addTodo, clearCompleted } from "../actions/index";
+import styled from "styled-components";
 
-const TodoListContainer = styled.div`
-  width: 500px;
-  height: fit-content;
-
-  border: 1px solid black;
-`;
-
-const TodoForm = styled.form`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+const ListContainer = styled.div`
+  flex-grow: 99;
+  flex-basis: 50px;
   width: 100%;
-  height: 50px;
 
-  padding: 0 10px;
-
-  border-bottom: 1px solid grey;
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  width: 100%;
-  height: 50px;
+  overflow-y: auto;
 `;
 
 class TodoList extends React.Component {
-  state = {
-    todo: "",
-    todos: []
-  };
-
-  onChangeHandler = e => {
-    this.setState({
-      [e.target.name]: e.target.value
-    });
-  };
-
-  addTodoHandler = e => {
-    e.preventDefault();
-
-    this.props.addTodo({
-      todo: this.state.todo,
-      completed: false
-    });
-
-    this.setState({
-      todo: ""
-    });
-  };
-
-  clearCompletedHandler = () => {
-    this.props.clearCompleted();
-  };
-
   render() {
-    console.log(this.props.todos);
+    const { todos, filters } = this.props;
+    console.log("TodoList.js props", this.props);
+
     return (
-      <TodoListContainer>
-        <TodoForm onSubmit={this.addTodoHandler}>
-          <input
-            type="text"
-            name="todo"
-            value={this.state.todo}
-            placeholder="Add New Task"
-            onChange={this.onChangeHandler}
-          />
-          <button onClick={this.addTodoHandler}>+</button>
-        </TodoForm>
-        {this.props.todos.map((todo, i) => (
-          <Todo
-            key={i}
-            todoID={i}
-            todo={todo.todo}
-            completed={todo.completed}
-          />
-        ))}
-        <ButtonContainer>
-          <button onClick={this.clearCompletedHandler}>Clear Complete</button>
-        </ButtonContainer>
-      </TodoListContainer>
+      <ListContainer>
+        {todos.map(
+          (todo, i) =>
+            (todo.completed === filters.completed ||
+              filters.completed === "all") &&
+            todo.category === filters.category && (
+              <Todo
+                key={i}
+                todoID={i}
+                todo={todo.todo}
+                completed={todo.completed}
+              />
+            )
+        )}
+      </ListContainer>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    todos: state.todos
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  { addTodo, clearCompleted }
-)(TodoList);
+export default TodoList;

@@ -1,7 +1,3 @@
-/*********************************************************************************
- *                                    ACTIONS                                     *
- **********************************************************************************/
-
 export const ADD_TODO = "ADD_TODO";
 export const DELETE_TODO = "DELETE_TODO";
 export const MARK_COMPLETE = "MARK_COMPLETE";
@@ -27,12 +23,5 @@ export const markComplete = todoID => {
   return {
     type: MARK_COMPLETE,
     todoID
-  };
-};
-
-export const clearCompleted = () => {
-  console.log("actions/index.js", CLEAR_COMPLETED);
-  return {
-    type: CLEAR_COMPLETED
   };
 };
